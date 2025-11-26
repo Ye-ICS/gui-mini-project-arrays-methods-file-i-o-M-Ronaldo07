@@ -1,3 +1,7 @@
+import java.io.File;
+
+import javax.swing.JProgressBar;
+
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -7,12 +11,19 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
+import java.io.File;
 import javafx.stage.Stage;
 
 /**
  * Template JavaFX application.
  */
 public class App extends Application {
+    File userFile;
+    Text fileText;
+    Button selectFileBtn;
+    Button generateCloudBtn;
     public static void main(String[] args) {
         launch(args);
     }
@@ -21,7 +32,9 @@ public class App extends Application {
     public void start(Stage stage) {
         // Create components to add.
         VBox contentBox = new VBox();
-        contentBox.setAlignment(Pos.CENTER);
+    
+
+    
 
         Label promptLabel = new Label();
         promptLabel.setText("Choose a file");
@@ -37,14 +50,13 @@ public class App extends Application {
         submissionBtn.setText("Submit");
 
         // Set up reactions (aka callbacks).
-        submissionBtn.setOnAction(event -> onSubmitThought(thoughtsBox, messageBox));
+       
+        selectFileBtn.setOnAction(e -> openFileChooser());
 
         // Add components to the content box.
-        contentBox.getChildren().add(promptLabel);
-        contentBox.getChildren().add(thoughtsBox);
         contentBox.getChildren().add(submissionBtn);
         contentBox.getChildren().add(messageBox);
-
+        
 
         // Set up the window and display it.
         Scene scene = new Scene(contentBox, 300, 200);
@@ -63,5 +75,13 @@ public class App extends Application {
         inputBox.clear();
         System.out.println("Interesting thought: " + text);
         outputBox.appendText("Interesting thought: " + text + "\n");
+    }
+    void openFileChooser() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select Txt File Containing A Story!");
+        userFile = fileChooser.showOpenDialog(null);
+        if (userFile != null) {
+            fileText.setText(userFile.getName());
+        } 
     }
 }
