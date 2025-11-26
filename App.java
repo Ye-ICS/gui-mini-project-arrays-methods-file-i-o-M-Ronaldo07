@@ -24,7 +24,7 @@ public class App extends Application {
         contentBox.setAlignment(Pos.CENTER);
 
         Label promptLabel = new Label();
-        promptLabel.setText("Enter your thoughts");
+        promptLabel.setText("Choose a file");
 
         TextField thoughtsBox = new TextField();
         thoughtsBox.setMaxWidth(150);
@@ -45,10 +45,11 @@ public class App extends Application {
         contentBox.getChildren().add(submissionBtn);
         contentBox.getChildren().add(messageBox);
 
+
         // Set up the window and display it.
         Scene scene = new Scene(contentBox, 300, 200);
         stage.setScene(scene);
-        stage.setTitle("Amazing App 2000");
+        stage.setTitle("Word Cloud Generator ");
         stage.show();
     }
 
