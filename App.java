@@ -12,7 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
+import java.util.Scanner;
 /**
  * Template JavaFX application.
  */
@@ -87,5 +87,18 @@ public class App extends Application {
         } catch (Exception error) {
             return;
         }
+    }
+    static String[] readWords(File file) {
+        String[] word = new String[6];
+        try {
+            Scanner fileReader = new Scanner(file);
+            for (int i = 0; i < 6; i++) {
+                word[i] = fileReader.next();
+            }
+            fileReader.close();
+        } catch (Exception error) {
+            System.out.println("Error reading File! ");
+        }
+        return word;
     }
 }
