@@ -1,7 +1,4 @@
 import java.io.File;
-
-import javax.swing.JProgressBar;
-
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -10,20 +7,21 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
-import java.io.File;
 import javafx.stage.Stage;
 
 /**
  * Template JavaFX application.
  */
 public class App extends Application {
-    File userFile;
+    File selectedFile;
     Text fileText;
     Button selectFileBtn;
     Button generateCloudBtn;
+    FlowPane cloudPane;
     public static void main(String[] args) {
         launch(args);
     }
@@ -31,57 +29,63 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         // Create components to add.
-        VBox contentBox = new VBox();
-    
+        VBox contentBox = new VBox(20);
+        contentBox.setStyle("-fx-background-color: lightblue; -fx-padding: 24;");
+        contentBox.setAlignment(Pos.TOP_CENTER);
 
-    
+        VBox labelBox = new VBox();
+        labelBox.setAlignment(Pos.TOP_CENTER);
+        Label promptLabel = new Label("Choose a .txt File To Create A Word Cloud");
+        promptLabel.setAlignment(Pos.TOP_CENTER);
+        promptLabel.setStyle("-fx-background-color: lightgreen;-fx-text-fill: black; -fx-font-size: 30px;");
 
-        Label promptLabel = new Label();
-        promptLabel.setText("Choose a file");
-
-        TextField thoughtsBox = new TextField();
-        thoughtsBox.setMaxWidth(150);
-        thoughtsBox.setPromptText("type here");
-        
-        TextArea messageBox = new TextArea();
-        messageBox.setEditable(false);
-
-        Button submissionBtn = new Button();
-        submissionBtn.setText("Submit");
-
-        // Set up reactions (aka callbacks).
        
+        
+        cloudPane = new FlowPane();
+        cloudPane.setPrefHeight(400);
+        cloudPane.setStyle("-fx-background-color: white; -fx-border-color: black;");
+        cloudPane.setHgap(10);
+        cloudPane.setVgap(10);
+        
+        HBox buttonBox = new HBox(20);
+        buttonBox.setAlignment(Pos.CENTER);
+        selectFileBtn = new Button("Select a File ");
+        selectFileBtn.setStyle("-fx-background-color: darkgreen; -fx-text-fill: black; -fx-font-size: 20px; -fx-font-weight: bold; -fx-padding: 15;");
+        generateCloudBtn = new Button("Generate Word Cloud ");
+        generateCloudBtn.setStyle("-fx-background-color: darkred; -fx-text-fill: black; -fx-font-size: 20px; -fx-font-weight: bold; -fx-padding: 15;");
+        
+        
+        
+        
+        
+        // Set up reactions (aka callbacks).
+        
         selectFileBtn.setOnAction(e -> openFileChooser());
-
+        generateCloudBtn.setOnAction(e -> {});
+        
         // Add components to the content box.
-        contentBox.getChildren().add(submissionBtn);
-        contentBox.getChildren().add(messageBox);
+        contentBox.getChildren().addAll(labelBox, buttonBox, cloudPane);
+        labelBox.getChildren().add(promptLabel);
+        buttonBox.getChildren().addAll(selectFileBtn, generateCloudBtn);
         
 
         // Set up the window and display it.
-        Scene scene = new Scene(contentBox, 300, 200);
+        Scene scene = new Scene(contentBox, 800, 800);
         stage.setScene(scene);
         stage.setTitle("Word Cloud Generator ");
         stage.show();
     }
 
-    /**
-     * Handle the submission of a thought.
-     * @param inputBox  The TextField where the user types their thought.
-     * @param outputBox The TextArea where the submitted thoughts are displayed.
-     */
-    void onSubmitThought(TextField inputBox, TextArea outputBox) {
-        String text = inputBox.getText();
-        inputBox.clear();
-        System.out.println("Interesting thought: " + text);
-        outputBox.appendText("Interesting thought: " + text + "\n");
-    }
     void openFileChooser() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select Txt File Containing A Story!");
-        userFile = fileChooser.showOpenDialog(null);
-        if (userFile != null) {
-            fileText.setText(userFile.getName());
-        } 
+        selectedFile = fileChooser.showOpenDialog(null);
+        try {  
+            if (selectedFile != null) {
+            fileText.setText(selectedFile.getName());
+            } 
+        } catch (Exception error) {
+            return;
+        }
     }
 }
