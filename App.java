@@ -13,6 +13,7 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.util.Scanner;
+import java.util.Random;
 /**
  * Template JavaFX application.
  */
@@ -20,7 +21,7 @@ public class App extends Application {
     File selectedFile;
     Text fileText;
     Button selectFileBtn;
-    Button generateCloudBtn;
+    Button genWordSearchBtn;
     FlowPane cloudPane;
     public static void main(String[] args) {
         launch(args);
@@ -51,22 +52,21 @@ public class App extends Application {
         buttonBox.setAlignment(Pos.CENTER);
         selectFileBtn = new Button("Select a File ");
         selectFileBtn.setStyle("-fx-background-color: darkgreen; -fx-text-fill: black; -fx-font-size: 20px; -fx-font-weight: bold; -fx-padding: 15;");
-        generateCloudBtn = new Button("Generate Word Cloud ");
-        generateCloudBtn.setStyle("-fx-background-color: darkred; -fx-text-fill: black; -fx-font-size: 20px; -fx-font-weight: bold; -fx-padding: 15;");
+        genWordSearchBtn = new Button("Generate Word Cloud ");
+        genWordSearchBtn.setStyle("-fx-background-color: darkred; -fx-text-fill: black; -fx-font-size: 20px; -fx-font-weight: bold; -fx-padding: 15;");
         
         
         
         
         
         // Set up reactions (aka callbacks).
-        
         selectFileBtn.setOnAction(e -> openFileChooser());
-        generateCloudBtn.setOnAction(e -> {});
+        genWordSearchBtn.setOnAction(e -> {});
         
         // Add components to the content box.
         contentBox.getChildren().addAll(labelBox, buttonBox, cloudPane);
         labelBox.getChildren().add(promptLabel);
-        buttonBox.getChildren().addAll(selectFileBtn, generateCloudBtn);
+        buttonBox.getChildren().addAll(selectFileBtn, genWordSearchBtn);
         
 
         // Set up the window and display it.
@@ -75,7 +75,7 @@ public class App extends Application {
         stage.setTitle("Word Cloud Generator ");
         stage.show();
     }
-
+    // open file chooser popup method
     void openFileChooser() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select Txt File Containing A Story!");
@@ -88,17 +88,28 @@ public class App extends Application {
             return;
         }
     }
-    static String[] readWords(File file) {
-        String[] word = new String[6];
+
+    // Read words from file method
+    static String[] readWordsFromFile(File file) {
+        String[] words = new String[6];
         try {
             Scanner fileReader = new Scanner(file);
             for (int i = 0; i < 6; i++) {
-                word[i] = fileReader.next();
+                words[i] = fileReader.next();
             }
             fileReader.close();
         } catch (Exception error) {
             System.out.println("Error reading File! ");
         }
-        return word;
+        return words;
     }
+
+    // generate random int method
+    public static int getRandomInt(int max) {
+        Random random = new Random();
+        int randomIndex = random.nextInt(max);
+        return randomIndex;
+    }
+    
+
 }
