@@ -111,5 +111,20 @@ public class App extends Application {
         return randomIndex;
     }
     
+    void placeWords(char[][] grid, String[] words) {
+        for (int rows = 0; rows < words.length; rows++) {
+            String word = words[rows];
+            if (word == null) {
+                word = "";
+            }
+            for (int columns = 0; columns < grid[rows].length; columns++) {
+                if (columns < word.length()) {
+                    grid[rows][columns] = word.charAt(columns);
+                } else {
+                    grid[rows][columns] = ' ';
+                }
+            }
+        }
+    }
 
 }
