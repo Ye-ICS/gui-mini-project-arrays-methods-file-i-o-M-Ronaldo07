@@ -105,13 +105,14 @@ public class App extends Application {
     }
 
     // generate random int method
-    public static int getRandomInt(int max) {
+    static int getRandomInt(int max) {
         Random random = new Random();
         int randomIndex = random.nextInt(max);
         return randomIndex;
     }
     
-    void placeWords(char[][] grid, String[] words) {
+    // create method to place words in the grid
+    static void placeWords(char[][] grid, String[] words) {
         for (int rows = 0; rows < words.length; rows++) {
             String word = words[rows];
             if (word == null) {
@@ -126,5 +127,21 @@ public class App extends Application {
             }
         }
     }
+
+    // create method to fill any empty spaces
+    static void fillEmptySpaces(char[][] grid) {
+        char[] alphabet = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q',
+            'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+        };
+        for (int rows = 0; rows < grid.length; rows++) {
+            for (int columns = 0; columns < grid[rows].length; columns++) {
+                if (grid[rows][columns] == ' ') {
+                    int index = getRandomInt(alphabet.length);
+                    grid[rows][columns] = alphabet[index];
+                }
+            }
+        }
+    }
+
 
 }
