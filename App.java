@@ -8,6 +8,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -18,77 +19,52 @@ import java.util.Random;
  * Template JavaFX application.
  */
 public class App extends Application {
-    File selectedFile;
-    Text fileText;
+    File userFile;
+    VBox cloudPane;
     Button selectFileBtn;
-    Button genWordSearchBtn;
-    FlowPane cloudPane;
+    Button generateCloudBtn;
+    VBox container;
+    TilePane rowBox;
+    Text letter;    
     public static void main(String[] args) {
         launch(args);
     }
     
     @Override
     public void start(Stage stage) {
-        // Create components to add.
-        VBox contentBox = new VBox(20);
-        contentBox.setStyle("-fx-background-color: lightblue; -fx-padding: 24;");
-        contentBox.setAlignment(Pos.TOP_CENTER);
+        // GUI layout
+        VBox root = new VBox();
+        root.setSpacing(20);
+        root.setAlignment(Pos.TOP_CENTER);
 
-        VBox labelBox = new VBox();
-        labelBox.setAlignment(Pos.TOP_CENTER);
-        Label promptLabel = new Label("Choose a .txt File To Create A Word Cloud");
-        promptLabel.setAlignment(Pos.TOP_CENTER);
-        promptLabel.setStyle("-fx-background-color: lightgreen;-fx-text-fill: black; -fx-font-size: 30px;");
+        container = new VBox();
 
-       
-        
-        cloudPane = new FlowPane();
-        cloudPane.setPrefHeight(400);
-        cloudPane.setStyle("-fx-background-color: white; -fx-border-color: black;");
-        cloudPane.setHgap(10);
-        cloudPane.setVgap(10);
-        
-        HBox buttonBox = new HBox(20);
+        cloudPane = new VBox();
+        cloudPane.setSpacing(5);
+
+        selectFileBtn = new Button("Select .txt File");
+        generateCloudBtn = new Button("Generate Word Search");
+
+        HBox buttonBox = new HBox(10, selectFileBtn, generateCloudBtn);
         buttonBox.setAlignment(Pos.CENTER);
-        selectFileBtn = new Button("Select a File ");
-        selectFileBtn.setStyle("-fx-background-color: darkgreen; -fx-text-fill: black; -fx-font-size: 20px; -fx-font-weight: bold; -fx-padding: 15;");
-        genWordSearchBtn = new Button("Generate Word Cloud ");
-        genWordSearchBtn.setStyle("-fx-background-color: darkred; -fx-text-fill: black; -fx-font-size: 20px; -fx-font-weight: bold; -fx-padding: 15;");
-        
-        
-        
-        
-        
-        // Set up reactions (aka callbacks).
-        selectFileBtn.setOnAction(e -> openFileChooser());
-        genWordSearchBtn.setOnAction(e -> {});
-        
-        // Add components to the content box.
-        contentBox.getChildren().addAll(labelBox, buttonBox, cloudPane);
-        labelBox.getChildren().add(promptLabel);
-        buttonBox.getChildren().addAll(selectFileBtn, genWordSearchBtn);
-        
 
-        // Set up the window and display it.
-        Scene scene = new Scene(contentBox, 800, 800);
+        root.getChildren().addAll(buttonBox, cloudPane, container);
+
+        // all actions(callbacks)
+        selectFileBtn.setOnAction(e -> openFileChooser());
+        generateCloudBtn.setOnAction();
+
+        // scene
+        Scene scene = new Scene(root, 400, 500);
         stage.setScene(scene);
-        stage.setTitle("Word Cloud Generator ");
+        stage.setTitle("Word Search Generator");
         stage.show();
     }
-    // open file chooser popup method
-    void openFileChooser() {
+     void openFileChooser() {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Select Txt File Containing A Story!");
-        selectedFile = fileChooser.showOpenDialog(null);
-        try {  
-            if (selectedFile != null) {
-            fileText.setText(selectedFile.getName());
-            } 
-        } catch (Exception error) {
-            return;
-        }
+        fileChooser.setTitle("Select File");
+        userFile = fileChooser.showOpenDialog(null);
     }
-
     // Read words from file method
     static String[] readWordsFromFile(File file) {
         String[] words = new String[6];
