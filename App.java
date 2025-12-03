@@ -51,8 +51,8 @@ public class App extends Application {
         root.getChildren().addAll(buttonBox, cloudPane, container);
 
         // all actions(callbacks)
-        selectFileBtn.setOnAction(e -> openFileChooser());
-        generateCloudBtn.setOnAction();
+        selectFileBtn.setOnAction(event -> openFileChooser());
+        generateCloudBtn.setOnAction(event -> generateWordSearch());
 
         // scene
         Scene scene = new Scene(root, 400, 500);
@@ -139,5 +139,26 @@ public class App extends Application {
         }
     }
 
+     // Method to generate wordsearch and display it fully
+    void generateWordSearch() {
+        if (userFile != null) {
+            String[] words = readWordsFromFile(userFile);
+
+            // Initialize 8x8 grid
+            char[][] grid = new char[8][8];
+            for (int row = 0; row < 8; row++) {
+                for (int column = 0; column < 8; column++) {
+                    grid[row][column] = ' ';
+                }
+            }
+
+            // Place words and fill random letters
+            placeWords(grid, words);
+            fillEmptySpaces(grid);
+
+            // Display in cloudPane
+            displayGrid(grid);
+        }
+    }
 
 }
