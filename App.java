@@ -119,5 +119,25 @@ public class App extends Application {
         }
     }
 
+    // Method to display in javafx
+    void displayGrid(char[][] grid) {
+        container.getChildren().clear();
+        for (int row = 0; row < grid.length; row++) {
+            rowBox = new TilePane();
+            rowBox.setAlignment(Pos.CENTER);
+            rowBox.setTileAlignment(Pos.CENTER);
+          
+            for (int column = 0; column < grid[row].length; column++) {
+                letter = new Text("" + grid[row][column]);
+                letter.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+                letter.setWrappingWidth(45);
+            
+                rowBox.getChildren().add(letter);
+            }
+
+            container.getChildren().add(rowBox);
+        }
+    }
+
 
 }
