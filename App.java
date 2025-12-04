@@ -86,20 +86,25 @@ public class App extends Application {
         int randomIndex = random.nextInt(max);
         return randomIndex;
     }
+
+    void horizontal(char[][] grid, String word) {
+
+    }
+
+    void vertical(char[][] grid, String word) {
+        
+    }
     
-    // create method to place words in the grid
-    static void placeWords(char[][] grid, String[] words) {
-        for (int rows = 0; rows < words.length; rows++) {
-            String word = words[rows];
-            if (word == null) {
-                word = "";
-            }
-            for (int columns = 0; columns < grid[rows].length; columns++) {
-                if (columns < word.length()) {
-                    grid[rows][columns] = word.charAt(columns);
-                } else {
-                    grid[rows][columns] = ' ';
-                }
+    // Place words first in each row
+    void placeWords(char[][] grid, String[] words) {
+        for (int i = 0; i < words.length; i++) {
+            String word = words[i];
+            int getRand = getRandomInt(2);
+            System.out.println(getRand);
+            if (getRand == 0) {
+                horizontal(grid, word);
+            } else if (getRand == 1) {
+                vertical(grid, word);
             }
         }
     }
