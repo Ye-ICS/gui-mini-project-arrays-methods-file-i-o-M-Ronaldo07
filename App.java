@@ -88,7 +88,42 @@ public class App extends Application {
     }
 
     void horizontal(char[][] grid, String word) {
+        int row = getRandomInt(13);
+        int position = getRandomInt(13);
+        boolean fits = false;
 
+        while (fits == false) {
+
+            if (13 - position >= word.length()) {
+
+                // check if all empty spaces, if not pick a new position
+                int i = position;
+                boolean empty = true;
+                while (i < 13 && empty) {
+                    if (grid[row][i] != ' ') {
+                        empty = false;
+                    }
+                    i++;
+                }
+
+                // if all positions are empty we can add word to row
+                if (empty) {
+
+                    for(int k = position, j = 0; j < word.length() && k < 13; j++, k++) {
+                        grid[row][k] = word.charAt(j);
+                    }
+                    // we added word so get out of while loop
+                    fits = true;
+                } else {
+                    row = getRandomInt(13);
+                    position = getRandomInt(13);
+                }
+            } else {
+                // word doesnt fit we need a new position and row
+                row = getRandomInt(13);
+                position = getRandomInt(13);
+            } 
+        }
     }
 
     void vertical(char[][] grid, String word) {
