@@ -127,7 +127,41 @@ public class App extends Application {
     }
 
     void vertical(char[][] grid, String word) {
-        
+        int row = getRandomInt(13);
+        int position = getRandomInt(13);
+        boolean fits = false;
+
+        while (fits == false) {
+
+            if (13 - row >= word.length()) {
+
+                // check if all empty spaces, if not pick a new position
+                int i = row;
+                boolean empty = true;
+                while (i < 13 && empty) {
+                    if (grid[i][position] != ' ') {
+                        empty = false;
+                    }
+                    i++;
+                }
+                // if all positions are empty we can add word to col
+                if (empty) {
+
+                    for (int k = row, j = 0; j < word.length() && k < 13; j++, k++) {
+                        grid[k][position] = word.charAt(j);
+                    }
+                    // we added the word so get out of while loop
+                    fits = true;
+                } else {
+                    row = getRandomInt(13);
+                    position = getRandomInt(13);
+                }
+            } else {
+                // word doesnt fit we need a new position and col
+                row = getRandomInt(13);
+                position = getRandomInt(13);
+            } 
+        }
     }
     
     // Place words first in each row
